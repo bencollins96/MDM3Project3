@@ -1,7 +1,7 @@
 function [profile_values] = preprocessing()
 
 AllData = importdata('Data/3to4.csv',' ');
-profile_values = {};
+profile_values = {length(AllData)-1};
 
 for i= 1:length(AllData)-1
     
