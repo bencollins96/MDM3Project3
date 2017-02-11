@@ -1,4 +1,4 @@
-function [profile_values] = preprocessing()
+function [new_prof_vals] = preprocessing()
 
     %% Import data from text file.
     % Script for importing data from the following text file:
@@ -67,15 +67,15 @@ function [profile_values] = preprocessing()
         new_prof_vals{i} = result;
     end
     
-    %% Demonstraion (all data starts from 1 now too)
+    %% Demonstration (all data starts from 1 now too)
     %  most of this should be in a more usuable format now
     datapoint = 10;
-    time_stamp(datapoint)
-    loop_id(datapoint)
-    sample_period(datapoint)
-    profile_length(datapoint)
-    max_detuning(datapoint)
-    profile_values_matrix = cell2mat(new_prof_vals(datapoint))
+    time_stamp(datapoint);
+    loop_id(datapoint);
+    sample_period(datapoint);
+    profile_length(datapoint);
+    max_detuning(datapoint);
+    profile_values_matrix = cell2mat(new_prof_vals(datapoint));
     
 %% Detuning and interpolation a specific example
     % this should be easyish to loop through and do for all but I wanted to
@@ -94,15 +94,17 @@ function [profile_values] = preprocessing()
     profile_length2 = profile_length(datapoint2);
     max_detuning2 = max_detuning(datapoint2);
     
-    % plot to get an idea of what they originally look like (0-255)
+    
+    %plot to get an idea of what they originally look like (0-255)
     figure;
     hold on;
     dtw(profile_values_matrix1,profile_values_matrix2);
     
     %% Detune the profile values 
     % assumes going from range 0-255 to 0-maxdetune
-    profile_values_matrix1 = (profile_values_matrix1.*max_detuning1)./255;
-    profile_values_matrix2 = (profile_values_matrix2.*max_detuning2)./255;
+    profile_values_matrix1 = (profile_values_matrix1.*max_detuning1)./255
+    profile_values_matrix2 = (profile_values_matrix2.*max_detuning2)./255
+    
     
     % plot the detuned values to see whats changed (0-maxdetune)
     figure;
@@ -112,7 +114,7 @@ function [profile_values] = preprocessing()
     %% Interpolating the profile values
     %  This may not be needed, its done under the assumption that we are
     %  missing datapoints between each profile value. So interpolating
-    %  between with linear or spline iterpolation could potentially give
+    %  between with linear or spline interpolation could potentially give
     %  better results. This is something we should probably look at but
     %  whether or not its neccesary is another story... My guess would be
     %  that where there is only a low amount of profile values
