@@ -9,6 +9,9 @@ function [] = analysis( )
 
 load('Copy of loop_data_20170207-0210to0310.mat');
 
+new_prof_vals = sam_prof_vals; %Just a name change... will fix
+
+disp(new_prof_vals);
 time_stamp = str_params(:,1);
 loop_id = str_params(:,2);
 max_detuning = num_params(:,1);
@@ -35,9 +38,9 @@ sample_period = num_params(:,3);
     
     
     %plot to get an idea of what they originally look like (0-255)
-%     figure;
-%     hold on;
-%     dtw(profile_values_matrix1,profile_values_matrix2);
+    figure;
+    hold on;
+    dtw(profile_values_matrix1,profile_values_matrix2);
     
     %% Detune the profile values 
     % assumes going from range 0-255 to 0-maxdetune
@@ -46,9 +49,9 @@ sample_period = num_params(:,3);
     
     
     % plot the detuned values to see whats changed (0-maxdetune)
-%     figure;
-%     hold on;
-%     dtw(profile_values_matrix1,profile_values_matrix2);
+    figure;
+    hold on;
+    dtw(profile_values_matrix1,profile_values_matrix2);
     
     %% Interpolating the profile values
     %  This may not be needed, its done under the assumption that we are
@@ -72,4 +75,5 @@ sample_period = num_params(:,3);
     
 
 end
+
 
