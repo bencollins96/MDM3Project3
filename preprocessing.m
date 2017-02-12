@@ -78,15 +78,14 @@ function [new_prof_vals, det_prof_vals,sam_prof_vals, str_params, num_params] = 
     
     %% Include the sample period. 
     % Gotta write an explanation of how this works somewhere....
+    % Could merge with loop above but no need really its plenty quick
+    
     
     sam_prof_vals={};
     
     for i =1:length(new_prof_vals)
- 
         old_time = [0:sample_period(i):(profile_length(i)-1)*sample_period(i)];
-   
         new_time = [0:(profile_length(i)-1)*sample_period(i)];
-
         sam_prof_vals{i} = interp1(old_time, det_prof_vals{i}, new_time);
     end
         

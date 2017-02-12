@@ -42,18 +42,18 @@ sample_period = num_params(:,3);
     hold on;
     dtw(profile_values_matrix1,profile_values_matrix2);
     
-    %% Detune the profile values 
+    %% Detune the profile values: MOVED INTO PREPROCESSING
     % assumes going from range 0-255 to 0-maxdetune
-    profile_values_matrix1 = (profile_values_matrix1.*max_detuning1)./255;
-    profile_values_matrix2 = (profile_values_matrix2.*max_detuning2)./255;
+%     profile_values_matrix1 = (profile_values_matrix1.*max_detuning1)./255;
+%     profile_values_matrix2 = (profile_values_matrix2.*max_detuning2)./255;
+%     
+%     
+%     % plot the detuned values to see whats changed (0-maxdetune)
+%     figure;
+%     hold on;
+%     dtw(profile_values_matrix1,profile_values_matrix2);
     
-    
-    % plot the detuned values to see whats changed (0-maxdetune)
-    figure;
-    hold on;
-    dtw(profile_values_matrix1,profile_values_matrix2);
-    
-    %% Interpolating the profile values
+    %% Interpolating the profile values: MOVED INTO PREPROCESSING
     %  This may not be needed, its done under the assumption that we are
     %  missing datapoints between each profile value. So interpolating
     %  between with linear or spline interpolation could potentially give
@@ -62,16 +62,17 @@ sample_period = num_params(:,3);
     %  that where there is only a low amount of profile values
     %  interpolation could be used to improve results
     
-    time1 = 1:profile_length1;
-    interp_time1 = 1:(1/sample_period1):profile_length1;
-    interp_profile_values_1 = interp1(time1,profile_values_matrix1,interp_time1,'spline');
-    
-    % Plot to see whats changes 
-    figure
-    hold on;
-    plot(time1,profile_values_matrix1)
-    plot(time1,profile_values_matrix1,'o',interp_time1,interp_profile_values_1,':.');
-    title('Profile values plotted against its interpolated values')
+%     
+%     time1 = 1:profile_length1;
+%     interp_time1 = 1:(1/sample_period1):profile_length1;
+%     interp_profile_values_1 = interp1(time1,profile_values_matrix1,interp_time1,'spline');
+%     
+%     % Plot to see whats changes 
+%     figure
+%     hold on;
+%     plot(time1,profile_values_matrix1)
+%     plot(time1,profile_values_matrix1,'o',interp_time1,interp_profile_values_1,':.');
+%     title('Profile values plotted against its interpolated values')
     
 
 end
