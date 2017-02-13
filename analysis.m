@@ -78,7 +78,7 @@ sample_period = num_params(:,3);
 %     time1 = 1:profile_length1;
 %     interp_time1 = 1:(1/sample_period1):profile_length1;
 %     interp_profile_values_1 = interp1(time1,profile_values_matrix1,interp_time1,'spline');
-%     
+%       
 %     % Plot to see whats changes 
 %     figure
 %     hold on;
