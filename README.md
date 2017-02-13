@@ -18,7 +18,7 @@ Alex...
 Also i think splitting up the data by loop id is a good idea...
 
 
-4) The important bit! gotta make some features.... DTW seems promising, but it is pairwise... that makes it a bit more 
+4) The important bit! gotta make some features.... DTW seems promising, but it is pairwise (and is it symmetric? cause it takes   a   bloody long time)... that makes it a bit more. Looks like lots of difference between sensors either because of speed or just being shitty sensors. might make it hard. LCSS? Longest common subsequence
    difficult to use things like KNN to cluster data? maybe we need other metrics like area under curve, number of peaks, 
    length of signal, max signal, Frequencies (susceptible to leakage though gotta be clever), ARMA, AR, least squares, F test with arima?????  etc etc This needs to be an area of research. How do people measure similarity between time 
    series? DTW accounts for time stretching but not scaling due to speed, i think. 
@@ -34,4 +34,16 @@ Also i think splitting up the data by loop id is a good idea...
     Therefore how can we quantify and qualify our results? I.e how can we say that we're 80% confident this car is the same 
     one as before? Are there any methods around that do this sort of thing? for a single car this is binary  classification
     surely? Either the other data is the same car or its not. 
+
+
+
+THINGS TO DO:
+
+Split up! identify  cars, vans, buses trucks.
+Split up! partition data set by loop ID so we can search in right place, convert map into rules to search by.
+read paper.
+visualise
+Look up other metrics. 
+Look up ways to assess unsupervised classification performance
+Look up ways to speed things up.
  

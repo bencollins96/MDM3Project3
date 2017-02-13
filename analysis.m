@@ -37,7 +37,7 @@ sample_period = num_params(:,3);
     max_detuning2 = max_detuning(datapoint2);
     
     dtwdist = zeros(length(new_prof_vals));
-    for i=1:length(new_prof_vals)
+    parfor i=1:length(new_prof_vals)
         for j = 1:length(new_prof_vals)
             if i== j
                 dtwdist(i,j) = inf;
