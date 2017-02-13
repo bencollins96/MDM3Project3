@@ -2,3 +2,6 @@ Data/
 *.m~
 *.csv
 *.mat
+*.fig
+*.odt
+*.jpg
