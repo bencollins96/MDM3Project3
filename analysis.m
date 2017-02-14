@@ -35,7 +35,15 @@ sample_period = num_params(:,3);
     profile_length2 = profile_length(datapoint2);
     max_detuning2 = max_detuning(datapoint2);
     
+    %%Normalise  the data
+    for i=1:length(new_prof_vals)
+        if max(prof_Vals{i}) |= 0
+            new_prof_vals{i} = new_prof_vals{i}./max(new_prof_vals{i});
+        end
+    end
     
+    
+    %% Calculate pairwise dtw distance for all data points
     dtwdist = zeros(length(new_prof_vals));
     for i=1:length(new_prof_vals)
         for j = 1:length(new_prof_vals)
@@ -51,9 +59,9 @@ sample_period = num_params(:,3);
     return
     
     %plot to get an idea of what they originally look like (0-255)
-    figure;
-    hold on;
-    dtw(profile_values_matrix1,profile_values_matrix2);
+%     figure;
+%     hold on;
+%     dtw(profile_values_matrix1,profile_values_matrix2);
     
     %% Detune the profile values: MOVED INTO PREPROCESSING
     % assumes going from range 0-255 to 0-maxdetune

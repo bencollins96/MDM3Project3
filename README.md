@@ -47,5 +47,6 @@ Look up other metrics.
 Look up ways to assess unsupervised classification performance
 Look up ways to speed things up.
 Normalise data
+THERE IS A ZERO DATA SET at 1750
 
  
