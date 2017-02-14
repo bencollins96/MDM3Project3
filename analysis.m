@@ -11,7 +11,6 @@ load('Copy of loop_data_20170207-0210to0310.mat');
 
 new_prof_vals = sam_prof_vals; %Just a name change... will fix
 
-disp(new_prof_vals);
 time_stamp = str_params(:,1);
 loop_id = str_params(:,2);
 max_detuning = num_params(:,1);
@@ -36,8 +35,9 @@ sample_period = num_params(:,3);
     profile_length2 = profile_length(datapoint2);
     max_detuning2 = max_detuning(datapoint2);
     
+    
     dtwdist = zeros(length(new_prof_vals));
-    parfor i=1:length(new_prof_vals)
+    for i=1:length(new_prof_vals)
         for j = 1:length(new_prof_vals)
             if i== j
                 dtwdist(i,j) = inf;
@@ -46,6 +46,7 @@ sample_period = num_params(:,3);
             end
         end
     end
+    
     
     return
     

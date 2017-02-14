@@ -46,4 +46,6 @@ visualise
 Look up other metrics. 
 Look up ways to assess unsupervised classification performance
 Look up ways to speed things up.
+Normalise data
+
  
