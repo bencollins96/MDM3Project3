@@ -37,7 +37,7 @@ sample_period = num_params(:,3);
     
     %%Normalise  the data
     for i=1:length(new_prof_vals)
-        if max(prof_Vals{i}) |= 0
+        if max(new_prof_vals{i}) ~= 0 %Normalise the data but watch for 0 data points
             new_prof_vals{i} = new_prof_vals{i}./max(new_prof_vals{i});
         end
     end
