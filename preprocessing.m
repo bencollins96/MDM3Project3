@@ -24,23 +24,14 @@ function [new_prof_vals, det_prof_vals,sam_prof_vals, str_params, num_params] = 
     % For more information, see the TEXTSCAN documentation.
     formatSpec = '%q%q%f%f%f%q%[^\n\r]';
 
-    %% Open the text file.
-    fileID = fopen(filename,'r');
-
-    %% Read columns of data according to the format.
+    %% Open the text file and read columns of data according to the specified format.
     % This call is based on the structure of the file used to generate this
     % code. If an error occurs for a different file, try regenerating the code
-    % from the Import Tool.
+    % from the Import Tool. Then Close the file again.
+    
+    fileID = fopen(filename,'r');
     dataArray = textscan(fileID, formatSpec, 'Delimiter', delimiter, 'HeaderLines' ,startRow-1, 'ReturnOnError', false, 'EndOfLine', '\r\n');
-
-    %% Close the text file.
     fclose(fileID);
-
-    %% Post processing for unimportable data.
-    % No unimportable data rules were applied during the import, so no post
-    % processing code is included. To generate code which works for
-    % unimportable data, select unimportable cells in a file and regenerate the
-    % script.
 
     %% Allocate imported array to column variable names
     time_stamp = dataArray{:, 1};
@@ -50,11 +41,11 @@ function [new_prof_vals, det_prof_vals,sam_prof_vals, str_params, num_params] = 
     max_detuning = dataArray{:, 5};
     profile_values = dataArray{:, 6};
 
-
     %% Clear temporary variables
     clearvars filename delimiter startRow formatSpec fileID dataArray ans;
     
-    %% Use the previus code to convert the profile values into something more useable
+    %% Use the previous code to convert the profile values into something more useable.
+    % These were in the format ['1','100','143',....].
     new_prof_vals = {length(profile_values)};
     for i = 1:length(profile_values)
 
@@ -69,18 +60,23 @@ function [new_prof_vals, det_prof_vals,sam_prof_vals, str_params, num_params] = 
         new_prof_vals{i} = result;
     end
     
-    %% Including the max-detuning
+    %% Including the max-detuning.
+    %  Must multiply the prof_vals by the maximum detuning to obtain the
+    %  'real' profile values.
     
-    det_prof_vals = {};
+    det_prof_vals = {length(new_prof_vals)};
     for i = 1:length(new_prof_vals)
         det_prof_vals{i} = new_prof_vals{i}*max_detuning(i);
     end
     
     %% Include the sample period. 
-    % Gotta write an explanation of how this works somewhere....
-    % Could merge with loop above but no need really its plenty quick
-    
-    
+    % This could be included in the loop above but for clarity and laziness
+    % sake, i'll leave it here. To take care of the sample period. I first
+    % made a vector increasing in jumps of the sample period so 0,4,8...
+    % Then i made the new one that it should be 0,1,2,3. And interpolated
+    % the real values for the new time. This makes each time series
+    % comparable.
+   
     sam_prof_vals={};
     
     for i =1:length(new_prof_vals)
@@ -89,12 +85,11 @@ function [new_prof_vals, det_prof_vals,sam_prof_vals, str_params, num_params] = 
         sam_prof_vals{i} = interp1(old_time, det_prof_vals{i}, new_time);
     end
         
-    
     %% Demonstration (all data starts from 1 now too)
-    %  most of this should be in a more usuable format now    
+    %  Passing the data out for usage. There might be a better way...
+    %
     str_params = [time_stamp, loop_id];
     num_params = [sample_period, profile_length, max_detuning];
-    
     save(file, 'sam_prof_vals', 'str_params','num_params');
     
 end
