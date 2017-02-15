@@ -1,16 +1,14 @@
-function [dtwdist] = analysis( )
-
-%Loads in the tidied up data, which has been preprocessed.
+function [dtwdist] = analysis()
+%%Loads in the tidied up data, which has been preprocessed.
 %This comes in the format:
 %   new_prof_vars: 1 by 1757 cell array in which
-%       each cell is the time series for that event. 
+%                  each cell is the time series for that event. 
 %   str_params: time data and loop ID in a 1757 by 2 matrix.
 %   num_params: the max detuning and period in a 1757 by 2 matrix.
 
 load('Copy of loop_data_20170207-0210to0310.mat');
 
-new_prof_vals = sam_prof_vals; %Just a name change... will fix
-
+new_prof_vals = sam_prof_vals; %Just a name change... 
 time_stamp = str_params(:,1);
 loop_id = str_params(:,2);
 max_detuning = num_params(:,1);
@@ -18,62 +16,31 @@ profile_length = num_params(:,2);
 sample_period = num_params(:,3);
 
 
-%% Detuning and interpolation a specific example
-    % this should be easyish to loop through and do for all but I wanted to
-    % see if its correct before doing that.
+
+%%Normalise the data
+
+for i=1:length(new_prof_vals)
+    if max(new_prof_vals{i}) ~= 0 %Normalise the data but watch for 0 data points
+        new_prof_vals{i} = new_prof_vals{i}./max(new_prof_vals{i});
+    end
+end
     
-    % grabbing two data points and the other values needed
-    datapoint1 = 137;
-    profile_values_matrix1 = cell2mat(new_prof_vals(datapoint1));
-    sample_period1 = sample_period(datapoint1);
-    profile_length1 = profile_length(datapoint1);
-    max_detuning1 = max_detuning(datapoint1);
     
-    datapoint2 = 30;
-    profile_values_matrix2 = cell2mat(new_prof_vals(datapoint2));
-    sample_period2 = sample_period(datapoint2);
-    profile_length2 = profile_length(datapoint2);
-    max_detuning2 = max_detuning(datapoint2);
-    
-    %%Normalise  the data
-    for i=1:length(new_prof_vals)
-        if max(new_prof_vals{i}) ~= 0 %Normalise the data but watch for 0 data points
-            new_prof_vals{i} = new_prof_vals{i}./max(new_prof_vals{i});
+%% Calculate pairwise dtw distance for all data
+% Horrible, so many loops and if's.
+dtwdist = zeros(length(new_prof_vals));
+for i=1:length(new_prof_vals)
+    for j = 1:length(new_prof_vals)
+        if i== j
+            dtwdist(i,j) = inf;
+        else
+            dtwdist(i,j) = dtw(new_prof_vals{i},new_prof_vals{j});
         end
     end
-    
-    
-    %% Calculate pairwise dtw distance for all data points
-    dtwdist = zeros(length(new_prof_vals));
-    for i=1:length(new_prof_vals)
-        for j = 1:length(new_prof_vals)
-            if i== j
-                dtwdist(i,j) = inf;
-            else 
-                dtwdist(i,j) = dtw(new_prof_vals{i},new_prof_vals{j});
-            end
-        end
-    end
-    
-    
-    return
-    
-    %plot to get an idea of what they originally look like (0-255)
-%     figure;
-%     hold on;
-%     dtw(profile_values_matrix1,profile_values_matrix2);
-    
-    %% Detune the profile values: MOVED INTO PREPROCESSING
-    % assumes going from range 0-255 to 0-maxdetune
-%     profile_values_matrix1 = (profile_values_matrix1.*max_detuning1)./255;
-%     profile_values_matrix2 = (profile_values_matrix2.*max_detuning2)./255;
-%     
-%     
-%     % plot the detuned values to see whats changed (0-maxdetune)
-%     figure;
-%     hold on;
-%     dtw(profile_values_matrix1,profile_values_matrix2);
-    
+end
+
+return
+
     %% Interpolating the profile values: MOVED INTO PREPROCESSING
     %  This may not be needed, its done under the assumption that we are
     %  missing datapoints between each profile value. So interpolating
@@ -96,6 +63,6 @@ sample_period = num_params(:,3);
 %     title('Profile values plotted against its interpolated values')
     
 
-end
+
 
 
