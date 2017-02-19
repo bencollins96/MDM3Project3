@@ -1,4 +1,4 @@
-function [loopData] = analysis()
+function [ind_list,time_list] = analysis()
 %%Loads in the tidied up data, which has been preprocessed.
 %This comes in the format:
 %   new_prof_vars: 1 by 1757 cell array in which
@@ -39,29 +39,37 @@ for i=1:length(loopData(3).B)
     end
 end
 
-%Compare one value in A with all in B. 
-DataPoint = 100;
-DistVec = [length(loopData(3).B)];
-for i=1:length(loopData(3).B)
-    DistVec(i) = dtw(loopData(3).A{DataPoint}, loopData(3).B{i});
-end
-
-[mini,ind] = min(DistVec);
-
-hold on
-plot(loopData(3).A{DataPoint});
-plot(loopData(3).B{ind});
-
-
-
-
-
-% for i=1:length(new_prof_vals)
-%     if max(new_prof_vals{i}) ~= 0 %Normalise the data but watch for 0 data points
-%         new_prof_vals{i} = new_prof_vals{i}./max(new_prof_vals{i});
+%Compare one value in A with all in B. Dodgily incorporate time...
+% DataPoint = 100;
+% DataPointTime = datenum(loopData(2).A{DataPoint});
+% DistVec = [length(loopData(3).B)];
+% for i=1:length(loopData(3).B)
+%     if DataPointTime < datenum(loopData(2).B{i})
+%         DistVec(i) = dtw(loopData(3).A{DataPoint}, loopData(3).B{i});
+%     else 
+%         DistVec(i) = inf;
 %     end
 % end
-%  
+
+ind_list(length(loopData(1).A)) = 0;
+time_list(length(loopData(1).A)) = 0;
+
+for i=length(loopData(1).A):length(loopData(1).A)
+    
+    [ind, time_diff] = find_min(loopData,i);
+    ind_list(i) = ind;
+    time_list(i) = time_diff;
+end
+    
+
+daysecs = 60*60*24;
+string1 = 'The closest match to event %d is event %d and they are %d secs apart\n';
+%fprintf(string1,DataPoint,ind,time_diff*daysecs);
+
+% hold on
+% plot(loopData(3).A{DataPoint});
+% plot(loopData(3).B{ind});
+  
     
 %% Calculate pairwise dtw distance for all data
 % Horrible, so many loops and if's.
@@ -77,5 +85,24 @@ plot(loopData(3).B{ind});
 % end
 % 
 % return
+
+end
+
+function [ind, time_diff] = find_min(loopData,DataPoint)
+
+DataPointTime = datenum(loopData(2).A{DataPoint});
+DistVec = [length(loopData(3).B)];
+
+for i=1:length(loopData(3).B)
+    if DataPointTime < datenum(loopData(2).B{i})
+        DistVec(i) = dtw(loopData(3).A{DataPoint}, loopData(3).B{i});
+    else
+        DistVec(i) = inf;
+    end
+end
+
+[~,ind] = min(DistVec);
+
+time_diff = datenum(loopData(2).B{ind}) - DataPointTime;
 
 end
