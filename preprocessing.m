@@ -9,8 +9,8 @@ function [new_prof_vals, det_prof_vals,sam_prof_vals, str_params, num_params] = 
 
 %% Initialize variables. (may need to change filename)
 
-file = 'loopData';
-filename = 'Copy of loop_data_20170207-0210to0310.csv';
+file = 'loopData56';
+filename = 'Data/Copy of loop_data_20170206-1700to1800.csv';
 delimiter = ',';
 startRow = 2;
 
@@ -190,9 +190,10 @@ field13 = 'M';
 loopData = struct(field1,values1,field2,values2,field3,values3,field4,values4,...
     field5,values5,field6,values6,field7,values7,field8,values8,field9,values9,...
     field10,values10,field11,values11,field12,values12,field13,values13);
-    
+
+loopData56 = loopData;
    
-    save(file, 'loopData');
+    save(file, 'loopData56');
     
 end
     
