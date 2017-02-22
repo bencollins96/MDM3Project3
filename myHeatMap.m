@@ -3,7 +3,7 @@ load 'loopData56'
 
 %Start for A (units are in ms...)
 
-
+loopData56 = loopData;
 
 originTime = datenum('2017-02-06 17:00:00.00');
 daySecs = 60*60*24;
