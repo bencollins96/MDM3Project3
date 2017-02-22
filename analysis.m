@@ -6,7 +6,7 @@ function [ind_list,time_list] = analysis()
 %   str_params: time data and loop ID in a 1757 by 2 matrix.
 %   num_params: the max detuning and period in a 1757 by 2 matrix.
 
-load('loopData');
+load('loopData.mat');
 
 % num, str,prof.
 
