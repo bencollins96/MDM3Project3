@@ -1,4 +1,4 @@
-function [new_prof_vals, det_prof_vals,sam_prof_vals, str_params, num_params] = preprocessing()
+function [loopData] = preprocessing(filename)
 
 %% Import data from text file.
 % Script for importing data from the following text file:
@@ -10,7 +10,6 @@ function [new_prof_vals, det_prof_vals,sam_prof_vals, str_params, num_params] = 
 %% Initialize variable. (may need to change filename)
 
 file = 'loopData';
-filename = 'Data/Copy of loop_data_20170207-0210to0310.csv';
 delimiter = ',';
 startRow = 2;
 
@@ -22,6 +21,7 @@ startRow = 2;
 %   column5: double (%f)
 %	column6: text (%q)
 % For more information, see the TEXTSCAN documentation.
+
 formatSpec = '%q%q%f%f%f%q%[^\n\r]';
 
 %% Open the text file and read columns of data according to the specified format.
@@ -99,50 +99,49 @@ num_params = [sample_period, profile_length, max_detuning];
 % num_params for A, whilst loopData(3).H gives cell array containing all
 % the profile values for H.
 
-    ord_num = [];
+    ord_num(length(sam_prof_vals)) = 0;
  
     for i =1:length(sam_prof_vals)
         
-        if(strcmp(loop_id(i),'N07141A1') == 1)
+        if(strcmp(loop_id(i),'N07141A1'))
             ord_num(i) = 1;
             
-        elseif(strcmp(loop_id(i),'N07151T1') == 1)
+        elseif(strcmp(loop_id(i),'N07151T1'))
              ord_num(i) = 2;
              
-        elseif(strcmp(loop_id(i),'N07192C1') == 1)
+        elseif(strcmp(loop_id(i),'N07192C1'))
              ord_num(i) = 3;
             
-        elseif(strcmp(loop_id(i),'N07191D1') == 1)
+        elseif(strcmp(loop_id(i),'N07191D1'))
              ord_num(i) = 4;
             
-        elseif(strcmp(loop_id(i),'N07191I1') == 1)
+        elseif(strcmp(loop_id(i),'N07191I1'))
              ord_num(i) = 5;         
              
-        elseif(strcmp(loop_id(i),'N07191B1') == 1)
+        elseif(strcmp(loop_id(i),'N07191B1'))
              ord_num(i) = 6;
              
-        elseif(strcmp(loop_id(i),'N07175A1') == 1)
+        elseif(strcmp(loop_id(i),'N07175A1'))
              ord_num(i) = 7;
             
-        elseif(strcmp(loop_id(i),'N07175A2') == 1)
+        elseif(strcmp(loop_id(i),'N07175A2'))
             ord_num(i) = 8;
             
-        elseif(strcmp(loop_id(i),'N07151R1') == 1)
+        elseif(strcmp(loop_id(i),'N07151R1'))
             ord_num(i) = 9;
              
-        elseif(strcmp(loop_id(i),'N07141B2') == 1)
+        elseif(strcmp(loop_id(i),'N07141B2'))
             ord_num(i) = 10;
             
-        elseif(strcmp(loop_id(i),'N07141B1') == 1)
+        elseif(strcmp(loop_id(i),'N07141B1'))
             ord_num(i) = 11;
             
-        elseif(strcmp(loop_id(i),'N07191E1') == 1)
+        elseif(strcmp(loop_id(i),'N07191E1'))
             ord_num(i) = 12;
             
-        elseif(strcmp(loop_id(i),'N07191F1') == 1)
+        elseif(strcmp(loop_id(i),'N07191F1'))
              ord_num(i) = 13;
-        end
-                
+        end        
     end
     
 % 1,2,3,4,... A,B,C,D....
@@ -186,15 +185,10 @@ field12 = 'L';
 values13 = {num_params(ord_num==13,:),str_params(ord_num==13,:),sam_prof_vals(ord_num ==13)};
 field13 = 'M';
 
-
 loopData = struct(field1,values1,field2,values2,field3,values3,field4,values4,...
     field5,values5,field6,values6,field7,values7,field8,values8,field9,values9,...
     field10,values10,field11,values11,field12,values12,field13,values13);
 
-
-   
- save(file, 'loopData');
-    
 end
     
 
