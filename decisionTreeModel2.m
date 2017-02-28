@@ -1,12 +1,11 @@
-function[class] = decisionTreeModel2()
+function[class] = decisionTreeModel2(sam_prof_vals,str_params,num_params)
 %% Import the data
 
     %loadFile = 'loop_data_20170206-1400to1500.mat';
     loadFile = 'loop_data_20170206-1700to1800.mat';
     %loadFile = 'loop_data_20170207-0000to0100.mat';
     %loadFile = 'loop_data_20170207-0210to0310.mat';
-    
-    load(loadFile);
+    %load(loadFile);
     
     time_stamp = str_params(:,1);
     loop_id = str_params(:,2);
@@ -223,10 +222,19 @@ function[class] = decisionTreeModel2()
     set(gca,'Visible','off');
     set(h,'Visible','on');
 
+ 
+function [norm_data]  = normal(Data)
     
-%% Stitch all the data of a chosen class together with time for induction loops A and B
-    StitchedAndClassified(class, 2, loadFile)
+DataTime = 0.001*[0:1:length(Data)-1];
+maxi = max(Data);
+if maxi ~= 0
+    Data = Data./maxi;
+end
 
+DataTime = DataTime./max(DataTime);
+norm_data = interp1(DataTime,Data, linspace(0,1,100));
+end
+    
 
     
 end
