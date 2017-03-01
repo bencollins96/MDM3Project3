@@ -77,7 +77,7 @@ end
 % the real values for the new time. This makes each time series
 % comparable.
 
-sam_prof_vals={};
+sam_prof_vals={length(new_prof_vals)};
 
 for i =1:length(new_prof_vals)
     old_time = [0:sample_period(i):(profile_length(i)-1)*sample_period(i)];
@@ -91,7 +91,5 @@ end
 str_params = [time_stamp, loop_id];
 num_params = [sample_period, profile_length, max_detuning];
 
-
-
-
+    
 end

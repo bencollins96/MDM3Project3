@@ -107,8 +107,6 @@ for i=1:length(loopData(1).H)
 end
 
 
-
-disp(Uniformity/100);
 end
 
 function [norm_data]  = normal(Data)

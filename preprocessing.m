@@ -1,4 +1,7 @@
-function [loopData] = preprocessing(sam_prof_vals,str_params,num_params)
+function [loopData,ord_num] = preprocessing(sam_prof_vals,str_params,num_params)
+%loopData is a struct with all the data separated by loop_id. 
+%ord_num is a list of which element in original data belongs to which loop.
+%i.e. [1,2,4,5,11,13...] etc
     
 %% Organising into simple labels and plotting seperately
 % I've gotta apologise for the horrific coding... but i think it works
@@ -98,6 +101,7 @@ field13 = 'M';
 loopData = struct(field1,values1,field2,values2,field3,values3,field4,values4,...
     field5,values5,field6,values6,field7,values7,field8,values8,field9,values9,...
     field10,values10,field11,values11,field12,values12,field13,values13);
+
 
 end
     

@@ -1,12 +1,12 @@
 function[class] = decisionTreeModel2(sam_prof_vals,str_params,num_params)
-%% Import the data
 
-    %loadFile = 'loop_data_20170206-1400to1500.mat';
-    loadFile = 'loop_data_20170206-1700to1800.mat';
-    %loadFile = 'loop_data_20170207-0000to0100.mat';
-    %loadFile = 'loop_data_20170207-0210to0310.mat';
-    %load(loadFile);
+%%Works only on the unnormalised data. Should probs convert but effort.
+
+
+%%Restructure the data
     
+
+
     time_stamp = str_params(:,1);
     loop_id = str_params(:,2);
     sample_period = num_params(:,1);
@@ -17,9 +17,7 @@ function[class] = decisionTreeModel2(sam_prof_vals,str_params,num_params)
 %%  Smoothing, Normalising and Feature extraction
     times                    = {length(loop_id)};       
     normalized_vals          = {length(loop_id)};
-    normalized_smoothed_vals = {length(loop_id)};
-    %normalized_time          = {length(loop_id)};
-    
+    normalized_smoothed_vals = {length(loop_id)};  
     % Features
     pos_max_peak        = zeros(size(loop_id));
     prominence_max_peak = zeros(size(loop_id));
@@ -67,6 +65,8 @@ function[class] = decisionTreeModel2(sam_prof_vals,str_params,num_params)
 
 
 %% Decision Tree Model
+% This is the important bit. This is the model from which we separate cars
+% and buses.
     class = zeros(size(sam_prof_vals));
 
     for i =1:length(sam_prof_vals)   
@@ -120,107 +120,107 @@ function[class] = decisionTreeModel2(sam_prof_vals,str_params,num_params)
 
 
     %% Plot the time series from one loop dependent on its colour
-
-    colourList = {'r','b','g','k','c','m'};
-
-    fSmooth = figure;
-    fRaw    = figure;
-    for i =1:length(sam_prof_vals)
-        if(max(times{i})>100)
-        %if(strcmp(loop_id(i),'N07141A1') == 1)
-            
-            if(class(i) == 1)
-                set(0, 'CurrentFigure', fSmooth)
-                S1 = subplot(3,2,1);
-                hold on;
-                plot(normalized_smoothed_vals{i},colourList{class(i)})
-                
-                set(0, 'CurrentFigure', fRaw)
-                R1 = subplot(3,2,1);
-                hold on;
-                plot(sam_prof_vals{i},colourList{class(i)})
-
-            elseif(class(i) == 2)
-                set(0, 'CurrentFigure', fSmooth)
-                S2 = subplot(3,2,2);
-                hold on;
-                plot(normalized_smoothed_vals{i},colourList{class(i)}) 
-                
-                set(0, 'CurrentFigure', fRaw)
-                R2 = subplot(3,2,2);
-                hold on;
-                plot(sam_prof_vals{i},colourList{class(i)})
-                
-            elseif(class(i) == 3)
-                set(0, 'CurrentFigure', fSmooth)
-                S3 = subplot(3,2,3);
-                hold on;
-                plot(normalized_smoothed_vals{i},colourList{class(i)})
-                
-                set(0, 'CurrentFigure', fRaw)
-                R3 = subplot(3,2,3);
-                hold on;
-                plot(sam_prof_vals{i},colourList{class(i)})
-
-            elseif(class(i) == 4)
-                set(0, 'CurrentFigure', fSmooth)
-                S4 = subplot(3,2,4);
-                hold on;
-                plot(normalized_smoothed_vals{i},colourList{class(i)})
-                
-                set(0, 'CurrentFigure', fRaw)
-                R4 = subplot(3,2,4);
-                hold on;
-                plot(sam_prof_vals{i},colourList{class(i)})
-            
-            elseif(class(i) == 5)
-                set(0, 'CurrentFigure', fSmooth)
-                S5 = subplot(3,2,5);
-                hold on;
-                plot(normalized_smoothed_vals{i},colourList{class(i)})
-                
-                set(0, 'CurrentFigure', fRaw)
-                R5 = subplot(3,2,5);
-                hold on;
-                plot(sam_prof_vals{i},colourList{class(i)})
-                
-            elseif(class(i) == 6)
-                set(0, 'CurrentFigure', fSmooth)
-                S6 = subplot(3,2,6);
-                hold on;
-                plot(normalized_smoothed_vals{i},colourList{class(i)})
-                
-                set(0, 'CurrentFigure', fRaw)
-                R6 = subplot(3,2,6);
-                hold on;
-                plot(sam_prof_vals{i},colourList{class(i)})
-            end
-            
-        end
-        %end
-
-    end
     
-    ylim(S1,[0,1]); 
-    ylim(S2,[0,1]);
-    ylim(S3,[0,1]); 
-    ylim(S4,[0,1]);
-    ylim(S5,[0,1]);
-    ylim(S6,[0,1]); 
-    
-    set(0, 'CurrentFigure', fSmooth)
-    set(gcf,'NextPlot','add');
-    axes;
-    h = title('Decision Tree Classification of Smoothed and Normalised Events');
-    set(gca,'Visible','off');
-    set(h,'Visible','on');
-    
-    set(0, 'CurrentFigure', fRaw)
-    set(gcf,'NextPlot','add');
-    axes;
-    h = title('Raw Events for each Decision Tree Class');
-    set(gca,'Visible','off');
-    set(h,'Visible','on');
+%     colourList = {'r','b','g','k','c','m'};
+% 
+%     fSmooth = figure;
+%     fRaw    = figure;
+%     for i =1:length(sam_prof_vals)
+%         if(max(times{i})>100)
+%         %if(strcmp(loop_id(i),'N07141A1') == 1)
+%             
+%             if(class(i) == 1)
+%                 set(0, 'CurrentFigure', fSmooth)
+%                 S1 = subplot(3,2,1);
+%                 hold on;
+%                 plot(normalized_smoothed_vals{i},colourList{class(i)})
+%                 
+%                 set(0, 'CurrentFigure', fRaw)
+%                 R1 = subplot(3,2,1);
+%                 hold on;
+%                 plot(sam_prof_vals{i},colourList{class(i)})
+% 
+%             elseif(class(i) == 2)
+%                 set(0, 'CurrentFigure', fSmooth)
+%                 S2 = subplot(3,2,2);
+%                 hold on;
+%                 plot(normalized_smoothed_vals{i},colourList{class(i)}) 
+%                 
+%                 set(0, 'CurrentFigure', fRaw)
+%                 R2 = subplot(3,2,2);
+%                 hold on;
+%                 plot(sam_prof_vals{i},colourList{class(i)})
+%                 
+%             elseif(class(i) == 3)
+%                 set(0, 'CurrentFigure', fSmooth)
+%                 S3 = subplot(3,2,3);
+%                 hold on;
+%                 plot(normalized_smoothed_vals{i},colourList{class(i)})
+%                 
+%                 set(0, 'CurrentFigure', fRaw)
+%                 R3 = subplot(3,2,3);
+%                 hold on;
+%                 plot(sam_prof_vals{i},colourList{class(i)})
+% 
+%             elseif(class(i) == 4)
+%                 set(0, 'CurrentFigure', fSmooth)
+%                 S4 = subplot(3,2,4);
+%                 hold on;
+%                 plot(normalized_smoothed_vals{i},colourList{class(i)})
+%                 
+%                 set(0, 'CurrentFigure', fRaw)
+%                 R4 = subplot(3,2,4);
+%                 hold on;
+%                 plot(sam_prof_vals{i},colourList{class(i)})
+%             
+%             elseif(class(i) == 5)
+%                 set(0, 'CurrentFigure', fSmooth)
+%                 S5 = subplot(3,2,5);
+%                 hold on;
+%                 plot(normalized_smoothed_vals{i},colourList{class(i)})
+%                 
+%                 set(0, 'CurrentFigure', fRaw)
+%                 R5 = subplot(3,2,5);
+%                 hold on;
+%                 plot(sam_prof_vals{i},colourList{class(i)})
+%                 
+%             elseif(class(i) == 6)
+%                 set(0, 'CurrentFigure', fSmooth)
+%                 S6 = subplot(3,2,6);
+%                 hold on;
+%                 plot(normalized_smoothed_vals{i},colourList{class(i)})
+%                 
+%                 set(0, 'CurrentFigure', fRaw)
+%                 R6 = subplot(3,2,6);
+%                 hold on;
+%                 plot(sam_prof_vals{i},colourList{class(i)})
+%             end
+%             
+%         end
+%         %end
+% 
+%     end
+%     
+%     ylim(S1,[0,1]); 
+%     ylim(S2,[0,1]);
+%     ylim(S3,[0,1]); 
+%     ylim(S4,[0,1]);
+%     ylim(S5,[0,1]);
+%     ylim(S6,[0,1]); 
+%     
+%     set(0, 'CurrentFigure', fSmooth)
+%     set(gcf,'NextPlot','add');
+%     axes;
+%     h = title('Decision Tree Classification of Smoothed and Normalised Events');
+%     set(gca,'Visible','off');
+%     set(h,'Visible','on');
+%     
+%     set(0, 'CurrentFigure', fRaw)
+%     set(gcf,'NextPlot','add');
+%     axes;
+%     h = title('Raw Events for each Decision Tree Class');
+%     set(gca,'Visible','off');
+%     set(h,'Visible','on');
 
  
 function [norm_data]  = normal(Data)
