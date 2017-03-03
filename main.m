@@ -6,10 +6,8 @@ filename =  'Data/loop_data_20170206-1700to1800.csv';
 % Extract as in first part of preprocessing then merge preprocessing and
 % normalise together.
 
-[prof_vals, str_params,num_params] = Extract(filename);
-
 fprintf('Extracting the Data...\n');
-
+[prof_vals, str_params,num_params] = Extract(filename);
 
 %% Preprocessing, load up the data into a more friendly format.
 %This is not normalised and in the form:
@@ -53,9 +51,10 @@ fprintf('Finding the likely Matches...\n');
 loop_num = 1;
 
 indices = zeros(length(norm_loopData{loop_num}),3);
+% 1 - DTW 0 for Uniformity
 
 for i=1:length(norm_loopData{loop_num})
-    [LM,mini,loop] = likely_match(i,class_cell, norm_loopData, [loop_num,successor(loop_num)],data_cell);
+    [LM,mini,loop] = likely_match(i,class_cell, norm_loopData, [loop_num,successor(loop_num)],data_cell,1);
     indices(i,:) = [LM,mini,loop];
 end
 
@@ -64,4 +63,3 @@ end
 % to 20.
 
 time_vec = time_diff(loop_num,indices,data_cell);
-

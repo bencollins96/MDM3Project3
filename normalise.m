@@ -88,7 +88,6 @@ norm_loopData = {A_mat,B_mat,C_mat,D_mat,E_mat,F_mat,G_mat,H_mat,...
 
 
 
-
 %% Calculate Uniformity Values:
 %E --- 160
 
