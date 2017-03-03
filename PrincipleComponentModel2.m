@@ -85,110 +85,112 @@ function[class] = PrincipleComponentModel2(sam_prof_vals,str_params,num_params)
 
     k = 6;
     [class,C] = kmeans(X,k);
+    
+    disp(C)
 
     
     %% Plot the time series from one loop dependent on its colour 
-%     colourList = {'r','b','g','k','c','m'};
-% 
-%     fSmooth = figure;
-%     fRaw    = figure;
-%     for i =1:length(sam_prof_vals)
-%         if(max(times{i})>100)
-%         %if(strcmp(loop_id(i),'N07141A1') == 1)
-%             
-%             if(class(i) == 1)
-%                 set(0, 'CurrentFigure', fSmooth)
-%                 S1 = subplot(3,2,1);
-%                 hold on;
-%                 plot(normalized_smoothed_vals{i},colourList{class(i)})
-%                 
-%                 set(0, 'CurrentFigure', fRaw)
-%                 R1 = subplot(3,2,1);
-%                 hold on;
-%                 plot(sam_prof_vals{i},colourList{class(i)})
-% 
-%             elseif(class(i) == 2)
-%                 set(0, 'CurrentFigure', fSmooth)
-%                 S2 = subplot(3,2,2);
-%                 hold on;
-%                 plot(normalized_smoothed_vals{i},colourList{class(i)}) 
-%                 
-%                 set(0, 'CurrentFigure', fRaw)
-%                 R2 = subplot(3,2,2);
-%                 hold on;
-%                 plot(sam_prof_vals{i},colourList{class(i)})
-%                 
-%             elseif(class(i) == 3)
-%                 set(0, 'CurrentFigure', fSmooth)
-%                 S3 = subplot(3,2,3);
-%                 hold on;
-%                 plot(normalized_smoothed_vals{i},colourList{class(i)})
-%                 
-%                 set(0, 'CurrentFigure', fRaw)
-%                 R3 = subplot(3,2,3);
-%                 hold on;
-%                 plot(sam_prof_vals{i},colourList{class(i)})
-% 
-%             elseif(class(i) == 4)
-%                 set(0, 'CurrentFigure', fSmooth)
-%                 S4 = subplot(3,2,4);
-%                 hold on;
-%                 plot(normalized_smoothed_vals{i},colourList{class(i)})
-%                 
-%                 set(0, 'CurrentFigure', fRaw)
-%                 R4 = subplot(3,2,4);
-%                 hold on;
-%                 plot(sam_prof_vals{i},colourList{class(i)})
-%             
-%             elseif(class(i) == 5)
-%                 set(0, 'CurrentFigure', fSmooth)
-%                 S5 = subplot(3,2,5);
-%                 hold on;
-%                 plot(normalized_smoothed_vals{i},colourList{class(i)})
-%                 
-%                 set(0, 'CurrentFigure', fRaw)
-%                 R5 = subplot(3,2,5);
-%                 hold on;
-%                 plot(sam_prof_vals{i},colourList{class(i)})
-%                 
-%             elseif(class(i) == 6)
-%                 set(0, 'CurrentFigure', fSmooth)
-%                 S6 = subplot(3,2,6);
-%                 hold on;
-%                 plot(normalized_smoothed_vals{i},colourList{class(i)})
-%                 
-%                 set(0, 'CurrentFigure', fRaw)
-%                 R6 = subplot(3,2,6);
-%                 hold on;
-%                 plot(sam_prof_vals{i},colourList{class(i)})
-%             end
-%             
-%         end
-%         %end
-% 
-%     end
-%     
-%     ylim(S1,[0,1]); 
-%     ylim(S2,[0,1]);
-%     ylim(S3,[0,1]); 
-%     ylim(S4,[0,1]);
-%     ylim(S5,[0,1]);
-%     ylim(S6,[0,1]); 
-%     
-%     set(0, 'CurrentFigure', fSmooth)
-%     set(gcf,'NextPlot','add');
-%     axes;
-%     h = title('K-means Classification of Smoothed and Normalised Events');
-%     set(gca,'Visible','off');
-%     set(h,'Visible','on');
-%     
-%     set(0, 'CurrentFigure', fRaw)
-%     set(gcf,'NextPlot','add');
-%     axes;
-%     h = title('Raw Events for each K-means Class');
-%     set(gca,'Visible','off');
-%     set(h,'Visible','on');
-%     
+    colourList = {'r','b','g','k','c','m'};
+
+    fSmooth = figure;
+    fRaw    = figure;
+    for i =1:length(sam_prof_vals)
+        if(max(times{i})>100)
+        %if(strcmp(loop_id(i),'N07141A1') == 1)
+            
+            if(class(i) == 1)
+                set(0, 'CurrentFigure', fSmooth)
+                S1 = subplot(3,2,1);
+                hold on;
+                plot(normalized_smoothed_vals{i},colourList{class(i)})
+                
+                set(0, 'CurrentFigure', fRaw)
+                R1 = subplot(3,2,1);
+                hold on;
+                plot(sam_prof_vals{i},colourList{class(i)})
+
+            elseif(class(i) == 2)
+                set(0, 'CurrentFigure', fSmooth)
+                S2 = subplot(3,2,2);
+                hold on;
+                plot(normalized_smoothed_vals{i},colourList{class(i)}) 
+                
+                set(0, 'CurrentFigure', fRaw)
+                R2 = subplot(3,2,2);
+                hold on;
+                plot(sam_prof_vals{i},colourList{class(i)})
+                
+            elseif(class(i) == 3)
+                set(0, 'CurrentFigure', fSmooth)
+                S3 = subplot(3,2,3);
+                hold on;
+                plot(normalized_smoothed_vals{i},colourList{class(i)})
+                
+                set(0, 'CurrentFigure', fRaw)
+                R3 = subplot(3,2,3);
+                hold on;
+                plot(sam_prof_vals{i},colourList{class(i)})
+
+            elseif(class(i) == 4)
+                set(0, 'CurrentFigure', fSmooth)
+                S4 = subplot(3,2,4);
+                hold on;
+                plot(normalized_smoothed_vals{i},colourList{class(i)})
+                
+                set(0, 'CurrentFigure', fRaw)
+                R4 = subplot(3,2,4);
+                hold on;
+                plot(sam_prof_vals{i},colourList{class(i)})
+            
+            elseif(class(i) == 5)
+                set(0, 'CurrentFigure', fSmooth)
+                S5 = subplot(3,2,5);
+                hold on;
+                plot(normalized_smoothed_vals{i},colourList{class(i)})
+                
+                set(0, 'CurrentFigure', fRaw)
+                R5 = subplot(3,2,5);
+                hold on;
+                plot(sam_prof_vals{i},colourList{class(i)})
+                
+            elseif(class(i) == 6)
+                set(0, 'CurrentFigure', fSmooth)
+                S6 = subplot(3,2,6);
+                hold on;
+                plot(normalized_smoothed_vals{i},colourList{class(i)})
+                
+                set(0, 'CurrentFigure', fRaw)
+                R6 = subplot(3,2,6);
+                hold on;
+                plot(sam_prof_vals{i},colourList{class(i)})
+            end
+            
+        end
+        %end
+
+    end
+    
+    ylim(S1,[0,1]); 
+    ylim(S2,[0,1]);
+    ylim(S3,[0,1]); 
+    ylim(S4,[0,1]);
+    ylim(S5,[0,1]);
+    ylim(S6,[0,1]); 
+    
+    set(0, 'CurrentFigure', fSmooth)
+    set(gcf,'NextPlot','add');
+    axes;
+    h = title('K-means Classification of Smoothed and Normalised Events');
+    set(gca,'Visible','off');
+    set(h,'Visible','on');
+    
+    set(0, 'CurrentFigure', fRaw)
+    set(gcf,'NextPlot','add');
+    axes;
+    h = title('Raw Events for each K-means Class');
+    set(gca,'Visible','off');
+    set(h,'Visible','on');
+   
 function [norm_data]  = normal(Data)
     
     DataTime = 0.001*[0:1:length(Data)-1];

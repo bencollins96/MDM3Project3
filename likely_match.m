@@ -10,6 +10,13 @@ Event = norm_loopData{CurrentLoop}(DataPt,:);
 EventClass = class_cell{CurrentLoop}(DataPt);
 EventStartTime = datenum(data_cell{CurrentLoop}(DataPt));
 
+if EventClass ~=2
+    index = NaN;
+    mini = NaN;
+    loop = NaN;
+    return 
+end
+
 
 if length(loops) == 1
     
@@ -19,7 +26,7 @@ elseif length(loops) ==2
     if dist_measure
         dist_list = find_dtw(norm_loopData,Event,EventClass,loops(2),class_cell,EventStartTime, data_cell);
     else 
-        dist_list = find_uni(norm_loopData,Event,EventClass,loops(2),class_cell,EventStartTime, data_cell);
+        dist_list = find_uni_list(norm_loopData,Event,EventClass,loops(2),class_cell,EventStartTime, data_cell);
     end
     [mini,index] = min(dist_list);
     loop = loops(2);
@@ -34,10 +41,12 @@ elseif length(loops) ==3
         dist_list2 = find_dtw(norm_loopData,Event,EventClass,loops(3),class_cell,EventStartTime, data_cell);
         [min2,index2] = min(dist_list2);
     else 
-        dist_list1 = find_dtw(norm_loopData,Event,EventClass,loops(2),class_cell, EventStartTime,data_cell);
+        
+        disp('WHAT THE FUCK');
+        dist_list1 = find_uni_list(norm_loopData,Event,EventClass,loops(2),class_cell, EventStartTime,data_cell);
         [min1,index1] = min(dist_list1);
         
-        dist_list2 = find_dtw(norm_loopData,Event,EventClass,loops(3),class_cell,EventStartTime, data_cell);
+        dist_list2 = find_uni_list(norm_loopData,Event,EventClass,loops(3),class_cell,EventStartTime, data_cell);
         [min2,index2] = min(dist_list2);
     end
     if min1 < min2 
@@ -72,7 +81,8 @@ function dtw_list = find_dtw(norm_loopData,Event,EventClass,loop_num,class_cell,
         end
     end
 end
-function uni_list = find_uni(norm_loopData,Event,EventClass,loop_num,class_cell, EventStartTime,data_cell)
+
+function uni_list = find_uni_list(norm_loopData,Event,EventClass,loop_num,class_cell, EventStartTime,data_cell)
  
     uni_list= zeros(length(norm_loopData{loop_num}),1);
     
@@ -83,7 +93,7 @@ function uni_list = find_uni(norm_loopData,Event,EventClass,loop_num,class_cell,
         TestEvent = norm_loopData{loop_num}(i,:);
     
         if (class_cell{loop_num}(i) == EventClass) &&  EventStartTime < EventStartTime_test
-            uni_list(i) = dtw(Event,TestEvent);
+            uni_list(i) = find_uni(Event,TestEvent);
         else
             uni_list(i) = inf;
         end
