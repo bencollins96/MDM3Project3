@@ -1,6 +1,6 @@
 %% The main code.
 
-filename =  'Data/loop_data_20170206-1700to1800.csv';
+filename =  'Copy of loop_data_20170206-1400to1500.csv';
 
 %% Extract Data
 % Extract as in first part of preprocessing then merge preprocessing and
@@ -23,6 +23,8 @@ fprintf('Normalising the Data...\n');
 norm_loopData = normalise(loopData); %Now its a cell array
 %Do the same for the string data?
 
+
+
 %% Classify the data so its easier to search through and less noisy.
 % Decision Tree or PCA. Put in both and choose. These both work on the
 % unnoormalised data.
@@ -41,7 +43,6 @@ end
 [class_cell,data_cell] = Class2Loop(Class,ord_num, str_params);
 
 
- 
 %% Find the most likely match for each event from our tidied up data.
 % Based on : DTW, Uniformity + a weighting function for the time?
 %Lets do this tricky badger....
@@ -60,8 +61,11 @@ indices = zeros(length(norm_loopData{loop_num}),3);
 %is which :( 
 
 for i=1:length(norm_loopData{loop_num})
-    [LM,mini,loop] = likely_match(i,class_cell, norm_loopData, [loop_num,successor(loop_num)],data_cell,1);
+    
+    [LM,mini,loop] = likely_match2(i,class_cell, [loop_num,successor(loop_num)],data_cell);
+    %[LM,mini,loop] = likely_match(i,class_cell, norm_loopData, [loop_num,successor(loop_num)],data_cell,0);
     indices(i,:) = [LM,mini,loop];
+    
 end
 
 %% Plot the Time differences.

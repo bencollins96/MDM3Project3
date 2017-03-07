@@ -10,7 +10,7 @@ Event = norm_loopData{CurrentLoop}(DataPt,:);
 EventClass = class_cell{CurrentLoop}(DataPt);
 EventStartTime = datenum(data_cell{CurrentLoop}(DataPt));
 
-if EventClass ~=2
+if EventClass ~=2   
     index = NaN;
     mini = NaN;
     loop = NaN;
@@ -27,6 +27,7 @@ elseif length(loops) ==2
         dist_list = find_dtw(norm_loopData,Event,EventClass,loops(2),class_cell,EventStartTime, data_cell);
     else 
         dist_list = find_uni_list(norm_loopData,Event,EventClass,loops(2),class_cell,EventStartTime, data_cell);
+        
     end
     [mini,index] = min(dist_list);
     loop = loops(2);
@@ -42,7 +43,6 @@ elseif length(loops) ==3
         [min2,index2] = min(dist_list2);
     else 
         
-        disp('WHAT THE FUCK');
         dist_list1 = find_uni_list(norm_loopData,Event,EventClass,loops(2),class_cell, EventStartTime,data_cell);
         [min1,index1] = min(dist_list1);
         
@@ -86,6 +86,8 @@ function uni_list = find_uni_list(norm_loopData,Event,EventClass,loop_num,class_
  
     uni_list= zeros(length(norm_loopData{loop_num}),1);
     
+    dEvent = gradient(Event);
+    
     %Loop through all Events in successor loop.
     for i=1:length(norm_loopData{loop_num})
        
@@ -93,11 +95,12 @@ function uni_list = find_uni_list(norm_loopData,Event,EventClass,loop_num,class_
         TestEvent = norm_loopData{loop_num}(i,:);
     
         if (class_cell{loop_num}(i) == EventClass) &&  EventStartTime < EventStartTime_test
-            uni_list(i) = find_uni(Event,TestEvent);
+            uni_list(i) = find_uni(Event,TestEvent) +abs(find_uni(dEvent,gradient(TestEvent)));
         else
             uni_list(i) = inf;
         end
     end
+    
     
     
     function uni = find_uni(Event, TestEvent)
